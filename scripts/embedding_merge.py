@@ -66,198 +66,197 @@ def _webui_embedding_merge_():
 
 По суті, це розширення створюватиме вбудовані текстові інверсії виключно шляхом злиття маркерів (без будь-якого навчання на фактичних зображеннях!) або автоматично під час створення, або вручну на вкладці.
 
-## Usage:
+## Використання:
 
-The tab `EM` can be used to:
-- inspect your prompt or specific words
-- create TI embeddings from text fragments with or without merging
-- check correctness of your merge expressions
+Вкладку `Token T` можна використовувати щоб:
+- перевірити свій промт або конкретні слова
+- створювати ембендінг -"Текстові інверсії"  з фрагментів тексту з об'єднанням або без нього
+- перевірити правильність своїх виразів злиття
 ''')
                     gradio.Markdown('''
 ### TL;DR:
 
-Use syntax `<'one thing'+'another thing'>` to merge terms "one thing" and "another thing" together in one single embedding in your positive or negative prompts at runtime.
+Використовуй синтаксис `'одна річ'+'інша річ'`, щоб об'єднати терміни  в одне вбудовування у ваші позитивні чи негативні підказки під час виконання.
 
-Also use `<'your words'*0.5>` (or any number, default is 1.0) to increase or decrease the essence of "your words" (which can be even zero to disable that part of the prompt).
+Також використовуй ` 'слово'*0,5 ` (або будь-яке число, за замовчуванням 1,0), щоб збільшити або зменшити суть 'ваших слів' (яке може бути навіть нульовим, щоб вимкнути цю частину промту).
 
-To use attention with round brackets ( ), put them around < >, like `(<'one'+'two'>:0.9)`  
-Use as many <> in one prompt, as you want; also you can put your existing TI embedding names inside `' '`.
+Щоб привернути увагу за допомогою круглих дужок ( ), поставте їх навколо, наприклад `( 'one'+'two' :0.9)`
+Використовуйте в одній підказці скільки завгодно; також ви можете розмістити свої існуючі імена вбудованих TI всередину `' '`.
 
-When you need literal <' for some reason, put a space between.  
-If some other extension interferes with this syntax, change angular brackets to curly: `{'also works'*4}`
+Якщо з якоїсь причини вам потрібен буквальний ', поставте між ними пробіл.
+Якщо якесь інше розширення заважає цьому синтаксису, змініть кутові дужки на фігурні: `{'also works'*4}`
 
-## View text or embeddings vectors
+## Перегляд тексту або вбудованих векторів
 
-You can paste your vanilla prompt (without any other special syntax) into the textbox in EM tab to see how it is parsed by WebUI. All of detected Textual Inversion embeddings will be extracted and presented to you along with literal text tokens. For example:
+Ви можете вставити промпт (без будь-якого іншого спеціального синтаксису) у текстове поле на цій вкладці , щоб побачити, як воно аналізується WebUI. Усі виявлені вбудовані текстові інверсії буде вилучено та представлено вам разом із літеральними текстовими маркерами. Наприклад:
 
->intergalactic train, masterpiece, by Danh Víµ
+ міжгалактичний поїзд, шедевр, Дань Віµ
 ''')
-                    with gradio.Accordion('More about table columns and grouping of its rows...', open=False):
+                    with gradio.Accordion('Детальніше про стовпці таблиці та групування її рядків...', open=False):
                         gradio.Markdown('''
-### Rows:
+### Рядки:
 
-- `By none` = interpret the prompt as a whole, extracting all characters from real tokens
-- `By comma` = split the prompt by tags on commas, removing commas but keeping source space characters
-- `By parts` (default) = split at TI embeddings, joining text parts together, keeping spaces
-- `By words` = split only after tokens that actually produce space character at the end
-- `By tokens` = split at everything except characters that are represented with more than one vector
-- `By vectors` = show all vectors separated, even for TI embeddings
+- `By none` = інтерпретувати підказку в цілому, вилучаючи всі символи з реальних токенів
+- `By comma` = розділити підказку тегами на коми, видаляючи коми, але зберігаючи вихідні пробіли
+- `По частинах` (за замовчуванням) = розділити на вбудовування TI, з’єднуючи частини тексту разом, зберігаючи пробіли
+- `За словами` = розділити лише після токенів, які фактично створюють пробіл у кінці
+- `За токенами` = розділити на все, крім символів, які представлені більш ніж одним вектором
+- `За векторами` = показати всі розділені вектори, навіть для вбудованих TI
 
-### Columns:
+### Стовпці:
 
-- `Index` = index of one vector or index range (inclusive) for this row
-- `Vectors` = number of final vectors for this row (to clearly see it)
-- `Text` = original or recreated from tokens text, enclosed in quotes for clarity
-- `Token` = list of CLIP token numbers that represent this row; for TI embeddings \* or \*_X where X is the index of current embedding vector
-- `Min` = lowest (negative) value of the vector or grouped vectors values
-- `Max` = largest value
-- `Sum` = sum of all values with sign
-- `Abs` = sum of modulus of each value, without sign (always positive)
-- `Len` = vector length in L2 norm, square root of sum of squared values (computed approximate)
-- `Std` = standard deviation for vector values.
+- `Індекс` = індекс одного вектора або діапазону індексів (включно) для цього рядка
+- `Вектори` = кількість кінцевих векторів для цього рядка (щоб це було чітко видно)
+- `Текст` = оригінальний або відтворений з тексту токенів, узятий у лапки для ясності
+- `Token` = список номерів токенів CLIP, які представляють цей рядок; для вбудовування TI * або *_X, де X — індекс поточного вектора вбудовування
+- `Min` = найменше (негативне) значення вектора або значень згрупованих векторів
+- `Макс` = найбільше значення
+- `Sum` = сума всіх значень зі знаком
+- `Abs` = сума модулів кожного значення, без знака (завжди додатне)
+- `Len` = довжина вектора в нормі L2, квадратний корінь із суми квадратів значень (обчислено приблизно)
+- `Std` = стандартне відхилення для векторних значень.
+### Навіщо це потрібно:
 
-### Why do you need it:
+Щоб переконатися, що ваше підказка інтерпретується так, як ви очікуєте (наприклад, виявлення наявних вбудовувань TI). Також ви можете вивчити токени CLIP таким чином.
 
-To make sure your prompt is interpreted the way you expect (for example, that existing TI embeddings are detected). Also you can explore CLIP tokens this way.
+Якщо ви введете нове ім’я в текстове поле внизу, увесь ваш поточний запит буде перетворено на одне вбудовування текстової інверсії з таким ім’ям (і збережено в підкаталозі `/embeddings/embedding_merge/`). Ви можете використовувати це для:
 
-If you type a new name into the textbox on the bottom, your whole current prompt will be converted into a single Textual Inversion embedding with that name (and stored inside `/embeddings/embedding_merge/` subdirectory). You can use this for:
-
-- Creating a shortened part to quickly use in prompts (not recommended though, since you will lose the original text later), but with no other benefits;
-- Prepare TI embedding for actual training by using existing embeddings for its initialization.
+- Створення скороченої частини для швидкого використання в підказках (хоча не рекомендується, оскільки пізніше ви втратите оригінальний текст), але без інших переваг;
+- Підготуйте вбудовування TI до фактичного навчання, використовуючи існуючі вбудовування для його ініціалізації.
 ''')
                     gradio.Markdown('''
-## Test merge expression:
+## Перевірити вираз злиття:
 
-In EM tab you can enter a "merge expression" that starts with a single quote, to see how it will be parsed and combined by this extension. It should contain single quotes around literal texts or TI embeddings, and special operators between them. For example:
+На цій вкладці   ви можете ввести `'вираз злиття'`, який починається з однієї лапки, щоб побачити, як це розширення аналізуватиме та об’єднує його. Він повинен містити одинарні лапки навколо літеральних текстів або вбудовування TI та спеціальні оператори між ними. Наприклад:
 
->'greg rutkowski'/4+'gustav dore'*0.75
+ `'greg rutkowski'/4+'gustav dore'*0,75`
 ''')
-                    with gradio.Accordion('More about merge expression syntax...', open=False):
+                    with gradio.Accordion('Докладніше про синтаксис виразу злиття...', open=False):
                         gradio.Markdown('''
 ### Синтаксис:
 
-- `'one' + 'two'` = blend vectors together by simple sum of all values. If length is different, smallest part will be right-padded with zeroes.
-- `'one' - 'two'` = as above, but subtraction. Note that + and - can be put only between textual parts and will have lowest priority.
-- `'text' * NUM` = multiply all vectors of quoted literal by numeric value. You can use floating point (0.85) and negative numbers (-1), but not arithmetic expressions.
-- `'text' / NUM` = division by number, just as multiplication above. Applies to previous text literal but after previous similar operations, so you can multiply and divide together (\*3/5)
-- `'text' : NUM` = change vector count of literal, to shrink or enlarge (padded with zeros). Only integer without sign!
-- `'text' :+ NUM` and `'text'  :- NUM` = circular rotate vectors in this token, for example +1 will shift index of each vector by one forward, wrapping on last.
-- `'text',NUM` (chainable as `'a',B,'c','d',E,F…`) = concatenate text with a token by its numerical index (so, to get any pure token – use empty left string: `'',256`). Special tokens: `0000` = "start token" (index 49406), `000` = "end token" (index 49407), `00` = "padding token" (also 49407 for SD1, but 0 for SD2). Token number `0` is not zero-vector, but for some reason counts as symbol "!" without a space after it, which is impossible to normally enter anyway.
+- `'один' + 'два'` = змішування векторів простою сумою всіх значень. Якщо довжина відрізняється, найменша частина буде доповнена праворуч нулями.
+- `'one' - 'two'` = як вище, але віднімання. Зверніть увагу, що + і - можна поставити лише між текстовими частинами та матимуть найнижчий пріоритет.
+- `'текст' * NUM` = помножити всі вектори літералу в лапках на числове значення. Можна використовувати числа з плаваючою комою (0,85) і від’ємні числа (-1), але не арифметичні вирази.
+- `'текст' / NUM` = ділення на число, як і множення вище. Застосовується до попереднього текстового літералу, але після попередніх подібних операцій, тому ви можете множити та ділити разом (*3/5)
+- `'текст' : NUM` = змінити кількість векторів літералу, щоб зменшити або збільшити (доповнений нулями). Тільки ціле число без знака!
+- `'text' :+ NUM` і `'text' :- NUM` = кругове обертання векторів у цьому маркері, наприклад, +1 зсуне індекс кожного вектора на одиницю вперед, переходячи на останній.
+- `'текст',NUM` (з'єднується як `'a',B,'c','d',E,F…`) = об'єднати текст із токеном за його числовим індексом (тому, щоб отримати будь-який чистий токен – використовуйте порожній лівий рядок: `',256`). Спеціальні токени: `0000` = 'початковий токен' (індекс 49406), `000` = 'кінцевий токен' (індекс 49407), `00` = 'доповнювальний токен' (також 49407 для SD1, але 0 для SD2). Токен номер `0` не є нуль-вектором, але чомусь вважається символом `!' без пробілу після нього, який нормально ввести неможливо.
 
-To apply multiplication (or division), cropping or shifting **to the result** of addition (or subtraction), you cannot use parenthesis; instead, try this syntax:
+Щоб застосувати множення (або ділення), обрізання або зсув **до результату** додавання (або віднімання), ви не можете використовувати круглі дужки; натомість спробуйте цей синтаксис:
 
-- `'one' + 'two' =* NUM` = will multiply the sum of 'one' and 'two', but not 'two' alone
-- `'one' + 'two' =/ NUM` = divide the sum (or any number of sums to the left), effectively the "result" of everything
-- `'one' + 'two' =: NUM` = crop or enlarge the results
-- `'one' + 'two' =:+ NUM` or `'one' + 'two' =:- NUM` = rotate the result
+- `'one' + 'two' =* NUM` = помножить суму 'one' і 'two', але не тільки 'two'
+- `'one' + 'two' =/ NUM` = розділити суму (або будь-яку кількість сум ліворуч), фактично 'результат' всього
+- `'one' + 'two' =: NUM` = обрізати або збільшити результати
+- `'one' + 'two' =:+ NUM` або `'one' + 'two' =:- NUM` = повернути результат
 
-Thus, the following operations are doing the same:
+Таким чином, такі операції виконуються так само:
 
->`'a'/2 + 'b'/2 + '':1 - 'd'`  
-`'a'+'b' =* 0.5 + 'c'*0 + 'd'*-1`
+ `'a'/2 + 'b'/2 + ':1 - 'd'`
+`'a'+'b' =* 0,5 + 'c'*0 + 'd'*-1`
 
-There is no true "concatenation" operator (since you will be able to concatenate several separate merge expressions later), but you may replicate it with addition of the same text enlarged and shifted, if you need.  
-Operation "," has the highest priority (it will directly construct the string before doing anything else), so you cannot concatenate anything to the result of addition or multiplication. Use it only to add tokens by index in your text.
+Немає справжнього оператора «конкатенації» (оскільки пізніше ви зможете об’єднати кілька окремих виразів злиття), але ви можете відтворити його, додавши той самий текст, збільшений і зміщений, якщо потрібно.
+Операція ',' має найвищий пріоритет (вона безпосередньо створить рядок перед тим, як робити щось інше), тому ви не можете об'єднати нічого з результатом додавання або множення. Використовуйте його лише для додавання токенів за індексом у ваш текст.
 
-For example, repeating a two-vector word, resulting in 4 vectors of two equal pairs:
+Наприклад, повторення двовекторного слова, в результаті чого виходить 4 вектори з двох рівних пар:
 
-> 'artstation' + 'artstation' :4 :+2  
-> 'artstation','artstation'
+  'artstation' + 'artstation' :4 :+2
+  'artstation','artstation'
 
-You can use shifting to join several vectors of the same text together. For example, given a 4-vectors word you may merge those vectors in one:
+Ви можете використовувати зсув, щоб об’єднати кілька векторів одного тексту. Наприклад, маючи 4-векторне слово, ви можете об’єднати ці вектори в один:
 
-> 'kuvshinov' + 'kuvshinov':-1 + 'kuvshinov':-2 + 'kuvshinov':-3 =: 1  
-> '',1836 + '',85 + '',43074 + '',341
+  'кувшинов' + 'кувшинов':-1 + 'кувшинов':-2 + 'кувшинов':-3 =: 1
+  ',1836 + ',85 + ',43074 + ',341
 
-Note that those indices are referring to "ku|v|shino|v[space]" and cannot be entered from raw text, since it would be parsed as "ku[space]", "v[space]" and "shino[space]", which are different tokens!
+Зауважте, що ці індекси посилаються на «ku|v|shino|v[пробіл]» і не можуть бути введені з необробленого тексту, оскільки він буде розібраний як «ku[пробіл]», «v[пробіл]» і «shino[пробіл]», які є різними лексемами!
 
-When you merge strings of unequal length, shortest one is padded with zero vectors; if you want to pad it with something else, you should check the vector count and concatenate accordingly:
+Коли ви об’єднуєте рядки різної довжини, найкоротший доповнюється нульовими векторами; якщо ви хочете доповнити його чимось іншим, вам слід перевірити кількість векторів і об’єднати відповідно:
 
-> 'close-up',00,00 + 'out-of-frame' + 'cropped',00,00,00,00  
-> 'up',00,00+'of-frame'+'',00,00,00 =:5:+2 + 'close-'+'out-'+'cropped',00
+  'close-up',00,00 + 'out-of-frame' + 'cropped',00,00,00,00
+  'up',00,00+'of-frame'+',00,00,00 =:5:+2 + 'close-'+'out-'+'cropped',00
 
 ### Навіщо воно тобі:
 
-To prepare your expression and fix any errors. You can evaluate its correctness by roughly comparing numbers in table (for example, adding vectors will generally result in higher `Abs` value; while multiplication is directly changing all numbers straightforwardly).
+Щоб підготувати свій вираз і виправити всі помилки. Ви можете оцінити його правильність, приблизно порівнявши числа в таблиці (наприклад, додавання векторів, як правило, призведе до більшого значення `Abs`; тоді як множення безпосередньо змінює всі числа прямолінійно).
 
-If for some reason you couldn't use the syntax for merging prompts at runtime, at least you will be able to enter a name and create a regular TI embedding from your merge expression. Then you may use it even without this extension installed!
+Якщо з якоїсь причини ви не можете використовувати синтаксис для підказок злиття під час виконання, принаймні ви зможете ввести ім’я та створити звичайне вбудовування TI із вашого виразу злиття. Тоді ви можете використовувати його навіть без цього розширення!
 
-Also you can check numerical parameters of your trained textual embedding and compare it with "normal" vectors. For example, very large `Len` or `Std` will mean that something is wrong and at least you may divide it in attempt to fix.
+Також ви можете перевірити числові параметри вашого навченого текстового вбудовування та порівняти його з «нормальними» векторами. Наприклад, дуже великі `Len` або `Std` означатимуть, що щось не так, і принаймні ви можете розділити це, щоб спробувати виправити.
 ''')
                     gradio.Markdown('''
-## Several merge expressions in prompt:
+## Кілька виразів злиття в підказці:
 
-If you put a valid merge expression enclosed in angular <'…' …> or curly {'…' …} brackets anywhere in your prompt (with no space between `<` or `{` and `'`) on EM tab, it will be parsed and merged into one temporary Textual Inversion embedding, which replaces the expression itself. The resulting prompt will be joined from those embeddings and anything between expressions. For example:
+Якщо ви розміщуєте дійсний вираз злиття, укладений у кутові «…» … або фігурні дужки {’…» …} у будь-якому місці підказки (без пробілу між ` ` або `{` і `'`) на вкладці EM, його буде проаналізовано та об’єднано в одне тимчасове вбудовування текстової інверсії, яке замінить сам вираз. Отриманий запит буде об’єднано з цих вставок і будь-чого між виразами. Наприклад:
 
->A photo of <'cat'+'dog'>, {'4k'+'dynamic lighting'+'science fiction'=/3} masterpiece
+ Фотографія 'кішка'+'собака', {'4k'+'динамічне освітлення'+'наукова фантастика'=/3} шедевр
 ''')
-                    with gradio.Accordion('More examples of using angular/curly brackets...', open=False):
+                    with gradio.Accordion('Більше прикладів використання кутових/фігурних дужок...', open=False):
                         gradio.Markdown('''
-### More examples:
+### Ще приклади:
 
 
-Combining different subjects or styles together, resulting in joined concepts:
+Поєднання різних предметів або стилів разом, що призводить до об’єднаних концепцій:
 
-> A realistic photo of the <'girl'+'doll'> in rainbow dress standing on a shore.  
-Art by <'greg rutkowski'*X+'hayao miyazaki'*Y> style.
+  Реалістична фотографія 'дівчинки' + 'ляльки' у веселковій сукні, яка стоїть на березі.
+Мистецтво від 'greg rutkowski'*X+'hayao miyazaki'*Y стиль.
 
-Notes:
-- Works best when all of your subjects have the same number of vectors (then can be even simulated by BREAK statement: `… photo of the girl in rainbow … BREAK … photo of the doll in rainbow …`);
-- You don't have to divide on the number of added parts, especially if your subjects are very different (e.g. not contain same tokens);
-- By multiplying each part in second example (where X and Y are numbers between 0.0 and 1.0) you may get a weighed combination or interpolation.
+Примітки:
+- Найкраще працює, коли всі ваші об’єкти мають однакову кількість векторів (тоді можна навіть змоделювати оператор BREAK: `… фото дівчини у веселці … BREAK … фото ляльки у веселці …`);
+- Вам не потрібно ділити на кількість доданих частин, особливо якщо ваші теми дуже різні (наприклад, не містять однакових жетонів);
+- Перемножуючи кожну частину у другому прикладі (де X і Y є числами від 0,0 до 1,0), ви можете отримати зважену комбінацію або інтерполяцію.
 
-Changing weight of individual words in prompt:
+Зміна ваги окремих слів у підказці:
 
-> A <'peacock'*X> is standing on a top of <'giraffe'*Y>.  
-worst quality, ugly, <'bad anatomy,':0> blurry, cropped
+  «Павич»*X стоїть на вершині «жирафа»*Y.
+найгірша якість, потворний, 'погана анатомія',:0 розмитий, обрізаний
 
-Where X and Y will be numbers from 0.0 to 1.0 or even higher, up to 5. This way you can directly change relative affection between subjects.
+Де X і Y будуть числами від 0,0 до 1,0 або навіть вище, до 5. Таким чином ви можете безпосередньо змінити відносну прихильність між суб’єктами.
 
-Notes:
-- Often values between 0.5 and 1.5 don't really change anything, looking like plain 1.0
-- Values lower than 0.5 and near to 0.0 are greatly reducing subject weight indeed! Up to its complete absence (which is not possible otherwise, for example even zero attention `(word:0)` does not eliminate "word" from the prompt)
-- High numbers might increase the presence of an object, not in quantity but in essence. Very high multipliers (above 10) corrupt the subject, but still don't destroy the image itself.
+Примітки:
+- Часто значення між 0,5 і 1,5 насправді нічого не змінюють, виглядаючи як звичайне 1,0
+- Значення, нижчі за 0,5 і близькі до 0,0, справді значно зменшують вагу об’єкта! Аж до його повної відсутності (що інакше неможливо, наприклад, навіть нульова увага `(word:0)` не видаляє слово з підказки)
+- Високі цифри можуть збільшити присутність об'єкта не кількісно, ​​а по суті. Дуже високі множники (вище 10) псують об’єкт, але не руйнують саме зображення.
 
-Eliminating a part of the negative prompt by zeroing its vectors can be used to understand the effect of the part in question, without shifting the rest of the text otherwise. Since WebUI is splitting long prompts at arbitrary commas (and then merging resulting parts together), simple deletion of a part might change things severely.
+Усунення частини негативної підказки шляхом обнулення її векторів може бути використано для розуміння ефекту відповідної частини, не зміщуючи решту тексту інакше. Оскільки WebUI розбиває довгі підказки на довільні коми (а потім об’єднує отримані частини), просте видалення частини може серйозно змінити ситуацію.
 ''')
                     gradio.Markdown('''
-## Using merge expressions in prompts at runtime!
+## Використання виразів злиття в підказках під час виконання!
 
-You can actually put merge expressions in angular or curly brackets into your txt2img or img2img prompt in WebUI. This extension will intercept both main and negative prompts, parse and merge expressions creating temporary TI embeddings that WebUI will "see" instead of your original text. In generation info there will be internal meaningless names like <'EM_1'>, but extra parameter "EmbeddingMerge" will contain original merge expressions. To quickly restore your prompts, just paste your complete generation information (from .txt or PNG Info) into the textbox on EM tab (also it should work for the official "paste" toolbar button too) – its temporary embeddings will be replaced back with expressions, for example:
+Ви фактично можете помістити вирази злиття в кутові або фігурні дужки в запит txt2img або img2img у WebUI. Це розширення перехоплюватиме як основні, так і негативні підказки, аналізуватиме та об’єднуватиме вирази, створюючи тимчасові вбудовування TI, які WebUI «бачить» замість вашого вихідного тексту. В інформації про генерацію будуть внутрішні безглузді імена, як-от «EM_1», але додатковий параметр «EmbeddingMerge» міститиме оригінальні вирази злиття. Щоб швидко відновити ваші підказки, просто вставте повну інформацію про генерацію (з .txt або PNG Info) у текстове поле на вкладці EM (також це має працювати для офіційної кнопки «вставити» на панелі інструментів) – її тимчасові вставлення буде замінено назад виразами, наприклад:
 
-> a photo of <'EM_1'>  
-Negative prompt: {'EM_2'}  
-Steps: 8, Sampler: DPM++ 2M Karras, CFG scale: 7, Seed: 1374372309, Size: 512x512, Model hash: c6bbc15e32, Model: sd-v1-5-inpainting, EmbeddingMerge: "<'EM_1'>=<'sky' * 2/4 + 'forest' * 3/4>, {'EM_2'}={'blurry'+'cropped'}", Conditional mask weight: 1
+  фото 'EM_1'
+Негативне повідомлення: {'EM_2'}
+Кроки: 8, вибірка: DPM++ 2M Karras, масштаб CFG: 7, вихідний код: 1374372309, розмір: 512x512, хеш моделі: c6bbc15e32, модель: sd-v1-5-inpainting, EmbeddingMerge: ' 'EM_1' = 'sky' * 2/4 + 'forest' * 3/4 ​​, {'EM_2 '}={'blurry'+'cropped'}', вага умовної маски: 1
 ''')
                     with gradio.Accordion('Limitations...', open=False):
                         gradio.Markdown('''
-### What is not working:
+### Що не працює:
 
-#### Binding properties to objects:
+#### Прив'язка властивостей до об'єктів:
 
-> Photo of a <'blonde'+'boy'> in <'red'+'shirt'> wearing <'green'+'pants'> and <'blue'+'shoes'>
+  Фото «блондина» + «хлопця» в «червоній» + «сорочці», одягненого в «зелені» + «штани» та «сині» + «черевики»
 
-– results in anything but not what was requested.
+– призводить до чого завгодно, але не до того, що запитувалося.
 
-#### Collapsing artists to single token:
+#### Згортання виконавців до одного токена:
 
-> Painting by <'William' + '-' + 'Adolphe'+'Adolphe':+1 + 'Bouguereau'+'Bouguereau':+1+'Bouguereau':+2 =:1>. A girl, masterpiece
+  Картина «Вільям» + «-» + «Адольф»+«Адольф»:+1 + «Бугро»+«Бугро»:+1+«Бугро»:+2 =:1 . Дівчина, шедевр
 
-– results in something barely distinct from zeroing the term altogether.
+– призводить до чогось, що мало відрізняється від повного обнулення терміну.
 
-#### Subtracting concepts as in word2vec:
+#### Віднімання понять як у word2vec:
 
-> Full-body photo of a <'king'-'man'+'woman'>  
-Detailed photo of <'yellow'-'red'> car
+  Повна фотографія 'король'-'чоловік'+'жінка'
+Детальне фото «жовто-червоного» автомобіля
 
-– generally results in totally ruined composition.
+– загалом призводить до повної руйнації композиції.
 
-#### Simulating negative prompt via negation of words:
+#### Імітація негативного підказки через заперечення слів:
 
-> A portrait of the princess. <'frame, black-white'*-1>  
-A cat is chasing a dog. <''-'road'-'grass'>
+  Портрет принцеси. 'рамка, чорно-біла'*-1
+Кішка женеться за собакою. '-'дорога'-'трава'
 
-– will still add those concepts to positive prompt, but with weird presence. You could find more luck with small values `-0.1-0.0` though.
+– усе одно додасть ці поняття до позитивного підказки, але з дивною присутністю. Хоча вам може пощастити з малими значеннями `-0.1-0.0`.
 ''')
             with gradio.Row():
                 gr_text = gradio.Textbox(value='', lines=4, max_lines=16, interactive=True, label='Ваш промт (без ваги/уваги, без дужок/дужок); або ваш вираз злиття (якщо перший символ є одинарними лапками); або інформацію про покоління для відновлення запитів')
