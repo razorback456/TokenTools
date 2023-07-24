@@ -274,7 +274,7 @@ A cat is chasing a dog. <''-'road'-'grass'>
                 gr_name = gradio.Textbox(value='', lines=1, max_lines=1, interactive=True, label='Type here a name for your new embedding that will store the result of next parsing/merging by the button above: (optional; cleared on success)')
             gr_button.click(fn=gr_func, inputs=[gr_name,gr_text,gr_radio,gr_true], outputs=[gr_html,gr_name,gr_text], show_progress=False)
             gr_radio.change(fn=gr_func, inputs=[gr_name,gr_text,gr_radio,gr_false], outputs=[gr_html,gr_name,gr_text], show_progress=False)
-        return [(block,'EM','embedding_merge_extension')]
+        return [(block,'Token T','embedding_merge_extension')]
 
     def tokens_to_text():
         try:
