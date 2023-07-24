@@ -56,15 +56,15 @@ def _webui_embedding_merge_():
                 with gradio.Accordion('Embedding Merge extension! (Click here for usage instructions)', open=False):
                     with gradio.Accordion('Introduction...', open=False):
                         gradio.Markdown('''
-## Purpose:
+## мета:
 
-Did you know that StableDiffusion reads your prompt by so-called tokens? They are multidimensional numerical vectors that construct together words and phrases.
+Чи знаєте ви, що StableDiffusion читає вашу підказку за так званими токенами? Вони являють собою багатовимірні числові вектори, які утворюють разом слова та фрази.
 
-It is actually possible to create new words by simple merging (adding) different vectors together, resulting in something that could mean both things simultaneously!
+Насправді можна створювати нові слова простим об’єднанням (додаванням) різних векторів разом, у результаті чого може означати обидві речі одночасно!
 
-However, it is not always working, and sometimes it won't give what you would expect, but it is definitely worth experimenting.
+Однак це не завжди працює, а іноді не дає того, чого ви очікуєте, але експериментувати точно варто.
 
-Basically, this extension will create Textual Inversion embeddings purely by token merging (without any training on actual images!) either automatically during generation, or manually on its tab.
+По суті, це розширення створюватиме вбудовані текстові інверсії виключно шляхом злиття маркерів (без будь-якого навчання на фактичних зображеннях!) або автоматично під час створення, або вручну на вкладці.
 
 ## Usage:
 
@@ -134,7 +134,7 @@ In EM tab you can enter a "merge expression" that starts with a single quote, to
 ''')
                     with gradio.Accordion('More about merge expression syntax...', open=False):
                         gradio.Markdown('''
-### Expression syntax:
+### Синтаксис:
 
 - `'one' + 'two'` = blend vectors together by simple sum of all values. If length is different, smallest part will be right-padded with zeroes.
 - `'one' - 'two'` = as above, but subtraction. Note that + and - can be put only between textual parts and will have lowest priority.
@@ -176,7 +176,7 @@ When you merge strings of unequal length, shortest one is padded with zero vecto
 > 'close-up',00,00 + 'out-of-frame' + 'cropped',00,00,00,00  
 > 'up',00,00+'of-frame'+'',00,00,00 =:5:+2 + 'close-'+'out-'+'cropped',00
 
-### Why do you need it:
+### Навіщо воно тобі:
 
 To prepare your expression and fix any errors. You can evaluate its correctness by roughly comparing numbers in table (for example, adding vectors will generally result in higher `Abs` value; while multiplication is directly changing all numbers straightforwardly).
 
