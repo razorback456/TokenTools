@@ -53,7 +53,7 @@ def _webui_embedding_merge_():
         with gradio.Blocks(analytics_enabled=False) as block:
             gradio.HTML('<style>#tab_embedding_merge_extension p::before,#tab_embedding_merge_extension p::after,#tab_embedding_merge_extension code::before,#tab_embedding_merge_extension code::after{display:none!important}</style>')
             with gradio.Row():
-                with gradio.Accordion('Слава Україні (Натисніть тут, щоб отримати інструкції з використання)', open=False):
+                with gradio.Accordion('Слава Україні   (Натисніть тут, щоб отримати інструкції з використання)', open=False):
                     with gradio.Accordion('Introduction...', open=False):
                         gradio.Markdown('''
 ## мета:
@@ -260,18 +260,18 @@ A cat is chasing a dog. <''-'road'-'grass'>
 – will still add those concepts to positive prompt, but with weird presence. You could find more luck with small values `-0.1-0.0` though.
 ''')
             with gradio.Row():
-                gr_text = gradio.Textbox(value='', lines=4, max_lines=16, interactive=True, label='Your prompt (no weight/attention, do not escape parenthesis/brackets); or your merge expression (if the first character is a single quote); or a generation info to restore prompts')
+                gr_text = gradio.Textbox(value='', lines=4, max_lines=16, interactive=True, label='Ваш промт (без ваги/уваги, без дужок/дужок); або ваш вираз злиття (якщо перший символ є одинарними лапками); або інформацію про покоління для відновлення запитів')
             with gradio.Row():
                 with gradio.Column(scale=1):
                     gr_button = gradio.Button('Parse!',variant='primary')
                 with gradio.Column(scale=3):
-                    gr_radio = gradio.Radio(choices=('By none','By comma','By parts','By words','By tokens','By vectors'), value='By parts', type='index', interactive=True, label='Group/split table by: (when not started with single quote - so only for prompts, not for merge)')
+                    gr_radio = gradio.Radio(choices=('By none','By comma','By parts','By words','By tokens','By vectors'), value='By parts', type='index', interactive=True, label='Згрупувати/розділити таблицю за: (якщо не починається з одинарних лапок, тому лише для підказок, а не для злиття)')
             with gradio.Box():
                 gr_html = gradio.HTML(label='out')
             with gradio.Row():
                 gr_true = gradio.Checkbox(value=True,visible=False,show_label=False)
                 gr_false = gradio.Checkbox(value=False,visible=False,show_label=False)
-                gr_name = gradio.Textbox(value='', lines=1, max_lines=1, interactive=True, label='Type here a name for your new embedding that will store the result of next parsing/merging by the button above: (optional; cleared on success)')
+                gr_name = gradio.Textbox(value='', lines=1, max_lines=1, interactive=True, label='Введіть тут назву для вашого нового вбудовування, яке зберігатиме результат наступного аналізу/об’єднання за допомогою кнопки вище: (необов’язково; видаляється в разі успіху)')
             gr_button.click(fn=gr_func, inputs=[gr_name,gr_text,gr_radio,gr_true], outputs=[gr_html,gr_name,gr_text], show_progress=False)
             gr_radio.change(fn=gr_func, inputs=[gr_name,gr_text,gr_radio,gr_false], outputs=[gr_html,gr_name,gr_text], show_progress=False)
         return [(block,'Token T','embedding_merge_extension')]
