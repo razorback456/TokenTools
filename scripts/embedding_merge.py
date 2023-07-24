@@ -53,7 +53,7 @@ def _webui_embedding_merge_():
         with gradio.Blocks(analytics_enabled=False) as block:
             gradio.HTML('<style>#tab_embedding_merge_extension p::before,#tab_embedding_merge_extension p::after,#tab_embedding_merge_extension code::before,#tab_embedding_merge_extension code::after{display:none!important}</style>')
             with gradio.Row():
-                with gradio.Accordion('Embedding Merge extension! (Click here for usage instructions)', open=False):
+                with gradio.Accordion('Слава Україні (Натисніть тут, щоб отримати інструкції з використання)', open=False):
                     with gradio.Accordion('Introduction...', open=False):
                         gradio.Markdown('''
 ## мета:
